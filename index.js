@@ -35,6 +35,8 @@ async function main() {
 
   await bot.start({
     drop_pending_updates: false,
+    // my_chat_member — bot shaxsiy guruhga qo'shilgani/chiqarilganini bilish uchun
+    allowed_updates: ['message', 'callback_query', 'my_chat_member'],
     onStart: (me) => console.log(`✅ Bot ishga tushdi: https://t.me/${me.username}`),
   });
 }

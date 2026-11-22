@@ -5,5 +5,6 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 COPY index.js ./
 COPY src ./src
+COPY assets ./assets
 VOLUME ["/app/data"]
 CMD ["node", "--disable-warning=ExperimentalWarning", "index.js"]
