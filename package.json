@@ -1,0 +1,21 @@
+{
+  "name": "birqr",
+  "version": "1.0.0",
+  "description": "BirQR — Telegram bot: har kim o'z profilini ochib, rasm, video, audio va havolalarini joylaydi; bot unga QR kod beradi.",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning index.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch index.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@grammyjs/auto-retry": "^2.0.2",
+    "grammy": "^1.48.0",
+    "qrcode": "^1.5.4"
+  }
+}
