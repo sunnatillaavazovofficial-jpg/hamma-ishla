@@ -18,6 +18,8 @@ Uzuk yoki sovg'a qutisi sifatida ishlatsa bo'ladi. Temir sharnir kerak emas: orq
 | `sunduk_70x50x63_3mm.dxf` | Xuddi shu, DXF — RDWorks, LaserCut, AutoCAD |
 | `sunduk_70x50x63_3mm.pdf` | Xuddi shu, PDF (vektor, 1:1 masshtab) |
 | `sunduk_120x85x98_3mm.*` | **Katta** quti (120×85×98 mm), 3 mm material |
+| `sunduk_70x50x63_2.8mm.*` | **Kichik** quti, **2.8 mm** material uchun (svg / dxf / pdf) |
+| `sunduk_120x85x98_2.8mm.*` | **Katta** quti, **2.8 mm** material uchun (svg / dxf / pdf) |
 | `*_chizma.png`, `*_3d_*.png` | Faqat ko'rish uchun rasmlar (kesmang!) |
 | `sunduk.py` | Generator: istalgan o'lcham/qalinlikka qayta chizadi |
 
