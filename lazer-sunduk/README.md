@@ -25,7 +25,7 @@ Uzuk yoki sovg'a qutisi sifatida ishlatsa bo'ladi. Temir sharnir kerak emas: orq
 
 Ranglar (DXF da qatlamlar):
 
-- 🔴 **qizil** `#FF0000` — kesish (`CUT` — detallar konturi, `KERF` — egiluvchan kesiklar)
+- ⚫ **qora** `#000000` — kesish (`CUT` — detallar konturi, `KERF` — egiluvchan kesiklar)
 - 🔵 **ko'k** `#0000FF` — gravirovka / chiziq (`ENGRAVE` — taxta naqshi va yurakdagi gul).
   Kerak bo'lmasa, bu qatlamni o'chirib qo'ying.
 

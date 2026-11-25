@@ -8,7 +8,7 @@ ular orasidagi egiluvchan zona sharnir (ilmoq) vazifasini bajaradi, ya'ni
 hech qanday temir sharnir kerak emas.
 
 Natija: SVG (LightBurn, RDWorks, CorelDraw, Inkscape) va DXF (AutoCAD, LaserCut).
-  qizil  (#FF0000) — kesish (CUT)
+  qora   (#000000) — kesish (CUT)   (--cut_color bilan o'zgartirsa bo'ladi)
   ko'k   (#0000FF) — gravirovka / chiziq (ENGRAVE)
 
 Ishlatish:
@@ -55,6 +55,7 @@ class Params:
     tab_clear: float = 0.35    # tishcha uchun bo'shliq
     engrave: bool = True       # bezak gravirovkasini qo'shish
     seed: int = 7
+    cut_color: str = "#000000"  # kesish chiziqlari rangi (qora)
 
     def check(self):
         a = (self.D - 2 * self.T) / 2
@@ -517,10 +518,10 @@ def export(chest, out_dir, name):
         o.append(f'<g id="ENGRAVE" fill="none" stroke="#0000FF" stroke-width="{sw}">')
         o += [f'<path d="{d}"/>' for d in eng_paths]
         o.append('</g>')
-        o.append(f'<g id="KERF" fill="none" stroke="#FF0000" stroke-width="{sw}">')
+        o.append(f'<g id="KERF" fill="none" stroke="{p.cut_color}" stroke-width="{sw}">')
         o += [f'<path d="{d}"/>' for d in kerf_paths]
         o.append('</g>')
-        o.append(f'<g id="CUT" fill="none" stroke="#FF0000" stroke-width="{sw}">')
+        o.append(f'<g id="CUT" fill="none" stroke="{p.cut_color}" stroke-width="{sw}">')
         o += [f'<path d="{d}"/>' for d in cut_paths]
         o.append('</g>')
         if preview:
@@ -545,8 +546,12 @@ def export(chest, out_dir, name):
     doc = ezdxf.new("R2010", setup=True)
     doc.units = ezdxf.units.MM
     doc.header["$INSUNITS"] = 4
-    doc.layers.add("CUT", color=1)
-    doc.layers.add("KERF", color=1)
+    cc = p.cut_color.lstrip("#").lower()
+    aci = {"000000": 7, "ff0000": 1, "0000ff": 5, "00ff00": 3}.get(cc, 7)
+    for lname in ("CUT", "KERF"):
+        lay = doc.layers.add(lname, color=aci)
+        lay.rgb = tuple(int(cc[i:i + 2], 16) for i in (0, 2, 4))
+    cut_attr = {"color": aci, "true_color": int(cc, 16)}
     doc.layers.add("ENGRAVE", color=5)
     msp = doc.modelspace()
     for pc, dx, dy, g in polys_for_preview:
@@ -554,10 +559,10 @@ def export(chest, out_dir, name):
         for pg in geoms:
             for ring in [pg.exterior, *pg.interiors]:
                 pts = [(x + dx, Hd - (y + dy)) for x, y in ring.coords[:-1]]
-                msp.add_lwpolyline(pts, close=True, dxfattribs={"layer": "CUT"})
+                msp.add_lwpolyline(pts, close=True, dxfattribs={"layer": "CUT", **cut_attr})
         for ln in pc.kerf_lines:
             pts = [(x + dx, Hd - (y + dy)) for x, y in ln.coords]
-            msp.add_lwpolyline(pts, dxfattribs={"layer": "KERF"})
+            msp.add_lwpolyline(pts, dxfattribs={"layer": "KERF", **cut_attr})
         for ln in pc.engrave:
             pts = [(x + dx, Hd - (y + dy)) for x, y in ln.simplify(0.01).coords]
             msp.add_lwpolyline(pts, dxfattribs={"layer": "ENGRAVE"})
